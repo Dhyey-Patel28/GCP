@@ -4,10 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>College Inquiry Chatbot</title>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
     /* General styling */
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Jost', sans-serif;
       background: linear-gradient(135deg, #89f7fe, #66a6ff);
       margin: 0;
       padding: 0;
@@ -17,15 +18,21 @@
     }
 
     h1 {
-      font-size: 3rem;
-      margin-top: 30px;
+      font-size: 3.5rem;
+      margin-top: 50px;
+      line-height: 1.2;
       animation: fadeInDown 1s ease;
+      font-weight: 700;
+      letter-spacing: 1px;
     }
 
     p {
-      font-size: 1.2rem;
-      margin: 10px 20px;
+      font-size: 1.5rem;
+      margin: 20px auto;
+      max-width: 600px;
+      line-height: 1.6;
       animation: fadeInDown 1.5s ease;
+      font-weight: 400;
     }
 
     /* Chat container styles */
@@ -60,7 +67,8 @@
       color: #66a6ff;
       border-radius: 10px;
       padding: 10px 20px;
-      font-size: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       animation: fadeIn 2s ease forwards, fadeOut 4s 4s forwards;
       opacity: 0;
@@ -144,8 +152,8 @@
   </style>
 </head>
 <body>
-  <h1>Welcome to the College Inquiry Chatbot</h1>
-  <p>Click the chat icon below to start your conversation and get all your questions answered!</p>
+  <h1>Welcome to the<br>College Inquiry Chatbot</h1>
+  <p>Get quick and accurate answers to all your questions about college, courses, and facilities. Click the chat icon below to start your journey!</p>
 
   <!-- Chat container -->
   <div class="chat-container" id="chatContainer">
