@@ -7,20 +7,25 @@
   <style>
     /* General styling */
     body {
-      font-family: 'Arial', sans-serif;
-      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #89f7fe, #66a6ff);
       margin: 0;
       padding: 0;
       color: #fff;
       text-align: center;
+      overflow-x: hidden;
     }
+
     h1 {
       font-size: 3rem;
-      margin-top: 50px;
+      margin-top: 30px;
+      animation: fadeInDown 1s ease;
     }
+
     p {
       font-size: 1.2rem;
-      margin-top: 10px;
+      margin: 10px 20px;
+      animation: fadeInDown 1.5s ease;
     }
 
     /* Chat container styles */
@@ -31,88 +36,129 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background-color: #fff;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      background: radial-gradient(circle, #fff 60%, #c9e9ff);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: pulse 1.5s infinite;
+      animation: bounce 2s infinite;
       z-index: 10;
     }
+
     .chat-icon {
-      font-size: 2rem;
-      color: #4facfe;
+      font-size: 2.5rem;
+      color: #66a6ff;
     }
 
-    /* Highlight animation */
-    @keyframes pulse {
-      0% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-      }
-      50% {
-        transform: scale(1.1);
-        box-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-      }
-      100% {
-        transform: scale(1);
-        box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
-      }
-    }
-
-    /* Guide bubble styles */
+    /* Guide bubble */
     .guide-bubble {
       position: fixed;
       bottom: 110px;
       right: 30px;
       background: #fff;
-      color: #4facfe;
+      color: #66a6ff;
       border-radius: 10px;
       padding: 10px 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
       font-size: 1rem;
-      animation: slide-in 0.8s ease forwards, fade-out 3s 2s forwards;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 2s ease forwards, fadeOut 4s 4s forwards;
       opacity: 0;
       visibility: hidden;
       z-index: 9;
     }
 
-    /* Slide-in animation */
-    @keyframes slide-in {
+    /* Styling for chatbot frame */
+    df-messenger {
+      --df-messenger-bot-message: #89f7fe;
+      --df-messenger-button-titlebar-color: #66a6ff;
+      --df-messenger-button-titlebar-font-color: #fff;
+      --df-messenger-chat-background-color: #f4faff;
+      --df-messenger-font-color: #333;
+      --df-messenger-send-icon: #66a6ff;
+    }
+
+    /* Animations */
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+
+    @keyframes fadeInDown {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(-20px);
       }
       to {
         opacity: 1;
         transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
         visibility: visible;
       }
     }
 
-    /* Fade-out animation */
-    @keyframes fade-out {
+    @keyframes fadeOut {
       to {
         opacity: 0;
         visibility: hidden;
+      }
+    }
+
+    /* Decorative elements */
+    .floating-stars {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      top: -10px;
+      background: rgba(255, 255, 255, 0.7);
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
+      animation: float 5s linear infinite;
+    }
+
+    @keyframes float {
+      to {
+        transform: translateY(120vh);
+        opacity: 0;
       }
     }
   </style>
 </head>
 <body>
   <h1>Welcome to the College Inquiry Chatbot</h1>
-  <p>Click the chat icon below to start your journey!</p>
+  <p>Click the chat icon below to start your conversation and get all your questions answered!</p>
 
-  <!-- Chat Container -->
+  <!-- Chat container -->
   <div class="chat-container" id="chatContainer">
     <span class="chat-icon">💬</span>
   </div>
 
-  <!-- Guide Bubble -->
+  <!-- Guide bubble -->
   <div class="guide-bubble" id="guideBubble">
     Click here to chat with me!
   </div>
+
+  <!-- Floating stars for decoration -->
+  <div class="floating-stars" id="stars"></div>
 
   <!-- Dialogflow Messenger -->
   <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
@@ -124,19 +170,30 @@
   ></df-messenger>
 
   <script>
-    // Show guide bubble briefly
-    document.addEventListener("DOMContentLoaded", () => {
-      const guideBubble = document.getElementById("guideBubble");
-      const chatContainer = document.getElementById("chatContainer");
+    // Create floating stars for decoration
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 50; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = Math.random() * 5 + 3 + 's';
+      star.style.opacity = Math.random();
+      starsContainer.appendChild(star);
+    }
+
+    // Guide bubble functionality
+    document.addEventListener('DOMContentLoaded', () => {
+      const guideBubble = document.getElementById('guideBubble');
+      const chatContainer = document.getElementById('chatContainer');
 
       // Show guide bubble
       setTimeout(() => {
         guideBubble.style.opacity = "1";
         guideBubble.style.visibility = "visible";
-      }, 500);
+      }, 1000);
 
-      // Open chatbot on click
-      chatContainer.addEventListener("click", () => {
+      // Open chatbot and hide chat container when clicked
+      chatContainer.addEventListener('click', () => {
         const dfMessenger = document.querySelector("df-messenger");
         dfMessenger.setAttribute("expanded", "true");
         chatContainer.style.display = "none";
