@@ -21,18 +21,17 @@
       font-size: 3.5rem;
       margin-top: 50px;
       line-height: 1.2;
-      animation: fadeInDown 1s ease;
       font-weight: 700;
       letter-spacing: 1px;
+      animation: fadeInDown 1s ease;
     }
 
     p {
       font-size: 1.5rem;
       margin: 20px auto;
-      max-width: 600px;
+      max-width: 700px;
       line-height: 1.6;
       animation: fadeInDown 1.5s ease;
-      font-weight: 400;
     }
 
     /* Chat container styles */
@@ -43,7 +42,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: radial-gradient(circle, #fff 60%, #c9e9ff);
+      background: linear-gradient(135deg, #fff, #c9e9ff);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
       cursor: pointer;
       display: flex;
@@ -58,22 +57,31 @@
       color: #66a6ff;
     }
 
-    /* Guide bubble */
-    .guide-bubble {
-      position: fixed;
-      bottom: 110px;
-      right: 30px;
-      background: #fff;
-      color: #66a6ff;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 1.1rem;
-      font-weight: 500;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-      animation: fadeIn 2s ease forwards, fadeOut 4s 4s forwards;
-      opacity: 0;
-      visibility: hidden;
-      z-index: 9;
+    /* Question List Section */
+    .questions {
+      margin: 50px auto;
+      max-width: 900px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 15px;
+      padding: 20px 30px;
+      text-align: left;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .questions h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .questions ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .questions li {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     /* Styling for chatbot frame */
@@ -106,106 +114,41 @@
         transform: translateY(0);
       }
     }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-        visibility: visible;
-      }
-    }
-
-    @keyframes fadeOut {
-      to {
-        opacity: 0;
-        visibility: hidden;
-      }
-    }
-
-    /* Decorative elements */
-    .floating-stars {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-    }
-
-    .star {
-      position: absolute;
-      top: -10px;
-      background: rgba(255, 255, 255, 0.7);
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      box-shadow: 0 0 5px rgba(255, 255, 255, 0.7);
-      animation: float 5s linear infinite;
-    }
-
-    @keyframes float {
-      to {
-        transform: translateY(120vh);
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
   <h1>Welcome to the<br>College Inquiry Chatbot</h1>
-  <p>Get quick and accurate answers to all your questions about college, courses, and facilities. Click the chat icon below to start your journey!</p>
+  <p>Explore everything you need to know about our college. From course offerings to campus life, get instant answers with our interactive chatbot!</p>
+
+  <!-- Question Section -->
+  <div class="questions">
+    <h2>Popular Questions</h2>
+    <ul>
+      <li>🏈 Does the college have a football team?</li>
+      <li>💻 Does it offer a Computer Science major?</li>
+      <li>📊 What is the in-state tuition?</li>
+      <li>🏠 Does it provide on-campus housing?</li>
+    </ul>
+  </div>
 
   <!-- Chat container -->
   <div class="chat-container" id="chatContainer">
     <span class="chat-icon">💬</span>
   </div>
 
-  <!-- Guide bubble -->
-  <div class="guide-bubble" id="guideBubble">
-    Click here to chat with me!
-  </div>
-
-  <!-- Floating stars for decoration -->
-  <div class="floating-stars" id="stars"></div>
-
   <!-- Dialogflow Messenger -->
   <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
   <df-messenger
     intent="WELCOME"
-    chat-title="SchoolHelpChatbot"
+    chat-title="CollegeBot"
     agent-id="d94c5d21-846b-44a8-9b48-b293b7ecc8e7"
     language-code="en"
   ></df-messenger>
 
   <script>
-    // Create floating stars for decoration
-    const starsContainer = document.getElementById('stars');
-    for (let i = 0; i < 50; i++) {
-      const star = document.createElement('div');
-      star.className = 'star';
-      star.style.left = Math.random() * 100 + 'vw';
-      star.style.animationDuration = Math.random() * 5 + 3 + 's';
-      star.style.opacity = Math.random();
-      starsContainer.appendChild(star);
-    }
-
-    // Guide bubble functionality
-    document.addEventListener('DOMContentLoaded', () => {
-      const guideBubble = document.getElementById('guideBubble');
-      const chatContainer = document.getElementById('chatContainer');
-
-      // Show guide bubble
-      setTimeout(() => {
-        guideBubble.style.opacity = "1";
-        guideBubble.style.visibility = "visible";
-      }, 1000);
-
-      // Open chatbot and hide chat container when clicked
-      chatContainer.addEventListener('click', () => {
-        const dfMessenger = document.querySelector("df-messenger");
-        dfMessenger.setAttribute("expanded", "true");
-        chatContainer.style.display = "none";
-      });
+    // Chat container functionality
+    document.getElementById("chatContainer").addEventListener("click", () => {
+      document.querySelector("df-messenger").setAttribute("expanded", "true");
     });
   </script>
 </body>
