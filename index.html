@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Inquiry Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+    .chat-container {
+      margin-top: 50px;
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the College Inquiry Chatbot</h1>
+  <p>Ask me anything about the college, courses, or facilities!</p>
+  <div class="chat-container">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+    intent="WELCOME"
+    chat-title="SchoolHelpChatbot"
+    agent-id="d94c5d21-846b-44a8-9b48-b293b7ecc8e7"
+    language-code="en"
+    ></df-messenger>
+</body>
+</html>
